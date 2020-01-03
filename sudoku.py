@@ -1,14 +1,14 @@
 import numpy as np
 # Sudoku puzzle to solve
-sod_main = np.array([[0,2,0,0,7,0,1,9,0],
-                     [1,3,0,0,0,0,0,5,8],
-                     [4,9,0,0,0,3,0,0,2],
-                     [8,1,0,0,4,0,0,0,0],
-                     [0,4,9,6,0,5,8,2,0],
-                     [0,0,0,0,3,0,0,4,1],
-                     [9,0,0,4,0,0,0,3,6],
-                     [2,6,0,0,0,0,0,8,9],
-                     [0,7,3,0,9,0,0,1,0]])
+sudoku = np.array([[0, 2, 0, 0, 7, 0, 1, 9, 0],
+                   [1,3,0,0,0,0,0,5,8],
+                   [4,9,0,0,0,3,0,0,2],
+                   [8,1,0,0,4,0,0,0,0],
+                   [0,4,9,6,0,5,8,2,0],
+                   [0,0,0,0,3,0,0,4,1],
+                   [9,0,0,4,0,0,0,3,6],
+                   [2,6,0,0,0,0,0,8,9],
+                   [0,7,3,0,9,0,0,1,0]])
 #print(sod_main)
 
 def check_correct(num, row, col, mat):
@@ -35,8 +35,8 @@ def sudoku_solve(row, col, mat):
             mat[row][col]=0
     return False
 
-sudoku_solve(0,0,sod_main)
-print(sod_main)
+sudoku_solve(0, 0, sudoku)
+print(sudoku)
 
 for i in range(9):
-    print(np.sum(sod_main[i]), np.sum(sod_main[:,i]))
+    print(np.sum(sudoku[i]), np.sum(sudoku[:, i]))
