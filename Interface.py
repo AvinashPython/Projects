@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+import time
 from sudoku import check_correct, sudoku_solve
 pygame.init()
 
@@ -38,6 +39,7 @@ run = True
 mou_pos = None # mouse position
 selected = None
 key = None
+start =  time.time()
 # Grid Size:
 # 468*468
 # each cell size = 468/9 = 52
@@ -122,13 +124,24 @@ def mouseonboard(pos):
         return False
     return (((pos[0]-66)//CellSize), ((pos[1]-100)//CellSize))
 
-def displaygame( board):
+def displaygame( board, time):
     font = pygame.font.SysFont(None,30)
     for i in range(9):
         for j in range(9):
             if board[i][j]!=0:
                 text = font.render(str(board[i][j]), True, Black)
                 win.blit(text, ((66+(CellSize/2-text.get_width()/2 )+j*CellSize), (100+(CellSize/2-text.get_width()/2)+i*CellSize)))
+
+    time_text = font.render('Time:'+ format_time(time), True, Black)
+    win.blit(time_text, (400, 70))
+
+def format_time(secs):
+    sec = secs%60
+    minute = secs//60
+    hour = minute//60
+
+    mat = " " + str(minute) + ":" + str(sec)
+    return mat
 
 def button(txt, c1, c2, x, y , w, h ):
     global mou_pos, win
@@ -139,10 +152,10 @@ def button(txt, c1, c2, x, y , w, h ):
     if x+w > mou_pos[0] > x and y+h > mou_pos[1] > y:
         pygame.draw.rect(win, c1, (x,y,w,h))
         if click[0]==1 and txt == 'Clear':
-            print('Gotta Clear')
+            #print('Gotta Clear')
             clear()
         elif click[0]==1 and txt == 'Solve':
-            print('Gotta Solve')
+            #print('Gotta Solve')
             clear()
             sudoku_solve(0,0,sudoku)
     else:
@@ -162,18 +175,21 @@ def clear():
 
 # Main program
 win = pygame.display.set_mode((600, 600))  # Window output
-pygame.display.set_caption('Sudoku')  # name of the window
+pygame.display.set_caption('Sudoku') # name of the window
+clock = pygame.time.Clock()
 while run:
+    play_time = round(time.time() - start)
 
     maindisplay()
     drawboard(win)
     events()
     mou_pos = pygame.mouse.get_pos()
-    displaygame(sudoku)
+    displaygame(sudoku,play_time)
     button('Clear', Dark_green, Green,  350, 30, 75, 30)
     button('Solve', Dark_green, Green, 450, 30, 75, 30)
 
     update()
+    clock.tick(5)
 
 
     #pygame.display.update()
